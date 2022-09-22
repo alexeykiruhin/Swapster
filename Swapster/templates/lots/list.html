@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %} Лоты {% endblock %}
+
+{% block content %}
+
+    <a href="{% url 'swaps:index' %}"><button type="button" >Свапы</button></a>
+    <br>
+
+    <h3>Лоты</h3>
+
+    {% if latest_lots_list %}
+        {% for l in latest_lots_list %}
+            <a href="{% url 'lots:detail' l.id %}">{{ l.lot_title }}</a><br>
+        {% endfor %}
+    {% endif %}
+    <br>
+
+    <h3>Добавить лот</h3>
+    <form action="{% url 'lots:add_lot' %}" method="POST">
+        {% csrf_token %}
+        <label>
+            <input type="text" required placeholder="Название" name="title">
+        </label><br>
+        <label>
+            <textarea name="text" required placeholder="Описание" cols="30" rows="10"></textarea>
+        </label><br>
+        <button type="submit">Добавить</button>
+    </form>
+
+{% endblock %}

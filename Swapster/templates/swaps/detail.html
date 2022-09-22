@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %} {{ swap.swap_title }} {% endblock %}
+
+{% block content %}
+    <a href="{% url 'swaps:index' %}"><button type="button" >Назад</button></a>
+    <h3>Свапы</h3>
+    <h2>{{ swap.swap_title }}</h2>
+    <p>{{ swap.id_lot_1 }} - {{ swap.id_lot_2 }}</p>
+    <em>{{ swap.swap_date }}</em>
+    <br>
+    <br>
+    <h3>Мои Лоты</h3>
+    <p>Выбери Лот и свапайся - типо выбрал</p>
+    <a href="{% url 'swaps:add_swap2' %}"><button type="button" >Свапнуться</button></a>
+{% endblock %}
