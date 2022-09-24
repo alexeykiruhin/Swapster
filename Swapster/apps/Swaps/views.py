@@ -24,12 +24,12 @@ def detail(request, swap_id):
 
 
 
-def add_swap(request, id=0):
+def add_swap(request, id=1):
     # надо выдернуть количество свапов в бд и добавлять в название
     latest_swaps_list = Swap.objects.all()
     count = len(latest_swaps_list)+1
 
-    s = Swap(swap_title=f'Swap_#{count}', id_lot_1=id, id_lot_2=0, swap_date=timezone.now())
+    s = Swap(swap_title=f'Swap_#{count}', id_lot_1=id, id_lot_2=1, swap_date=timezone.now())
     s.save(force_insert=True)
     print('ГОтвово')
     return HttpResponseRedirect(reverse('swaps:index'))
