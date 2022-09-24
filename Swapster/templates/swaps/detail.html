@@ -11,6 +11,10 @@
     <br>
     <br>
     <h3>Мои Лоты</h3>
-    <p>Выбери Лот и свапайся - типо выбрал</p>
-    <a href="{% url 'swaps:add_swap2' %}"><button type="button" >Свапнуться</button></a>
+    <p>Выбери Лот и свапайся - нажми на Лот для свапа</p>
+    {% if latest_lots_list %}
+        {% for l in latest_lots_list %}
+            <a href="{% url 'swaps:add_swap2' swap.id l.id %}">{{ l.lot_title }}</a><br>
+        {% endfor %}
+    {% endif %}
 {% endblock %}

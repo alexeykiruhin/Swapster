@@ -15,11 +15,11 @@ def index(request):
 
 def detail(request, lot_id):
     try:
-        l = Lot.objects.get( id = lot_id )
+        lot = Lot.objects.get( id = lot_id )
     except:
         raise Http404('Лот не найден')
 
-    return render(request, 'lots/detail.html', {'lot': l})
+    return render(request, 'lots/detail.html', {'lot': lot})
 
 
 def add_lot(request):
