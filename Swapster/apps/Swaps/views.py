@@ -30,7 +30,6 @@ def add_swap(request, id=0):
 
     s = Swap(swap_title=f'Swap_#{count}', id_lot_1=id, id_lot_2='null', swap_date=timezone.now())
     s.save(force_insert=True)
-    print('add_swap, id_lot_1='+str(id))
     return HttpResponseRedirect(reverse('swaps:index'))
 
 

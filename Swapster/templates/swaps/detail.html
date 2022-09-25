@@ -6,7 +6,12 @@
     <a href="{% url 'swaps:index' %}"><button type="button" >Назад</button></a>
     <h3>Свапы</h3>
     <h2>{{ swap.swap_title }}</h2>
-    <p>{{ swap.id_lot_1 }} - {{ swap.id_lot_2 }}</p>
+    <span>
+        <p>{{ swap.id_lot_1 }} - {{ swap.id_lot_2 }}</p>
+        <img src="" alt="not found">
+        <img src="" alt="not found">
+    </span>
+    <br>
     <em>{{ swap.swap_date }}</em>
     <br>
     <br>
