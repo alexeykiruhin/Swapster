@@ -1,7 +1,6 @@
 from django.urls import path
 
 from . import views
-from ..Swaps import views as vi
 
 app_name = 'lots'
 urlpatterns = [

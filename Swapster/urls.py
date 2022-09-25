@@ -18,6 +18,8 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('Swapster.apps.Swaps.urls')),  # 'swaps/'
+    path('', include('Swapster.apps.Swaps.urls'), name='index'),  # 'swaps/'
+    path('accounts/', include('django.contrib.auth.urls')),
     path('lots/', include('Swapster.apps.Lots.urls')),
 ]
+
