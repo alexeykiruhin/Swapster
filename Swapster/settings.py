@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'Swapster.apps.Swaps.apps.SwapsConfig',
     'Swapster.apps.Lots.apps.LotsConfig',
+    'Swapster.apps.accounts.apps.AccountsConfig',
 ]
 
 MIDDLEWARE = [

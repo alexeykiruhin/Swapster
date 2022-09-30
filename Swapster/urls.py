@@ -20,6 +20,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('Swapster.apps.Swaps.urls'), name='index'),  # 'swaps/'
     path('accounts/', include('django.contrib.auth.urls')),
+    path('accounts/', include('Swapster.apps.accounts.urls')),
     path('lots/', include('Swapster.apps.Lots.urls')),
 ]
 
