@@ -4,14 +4,13 @@ from django.urls import reverse
 from django.utils import timezone
 
 from .models import Lot
-from django.contrib.auth.models import User
 
 
 def index(request):
     if request.user.is_anonymous:
         return HttpResponseRedirect(reverse('swaps:index'))
     else:
-        latest_lots_list = Lot.objects.filter(usernew_id=request.user.id)
+        latest_lots_list = Lot.objects.filter(usernew_id=request.user.id).order_by('-lot_date')
         return render(request, 'lots/list.html', {'latest_lots_list': latest_lots_list})
 
 
@@ -28,8 +27,8 @@ def detail(request, lot_id):
 
 
 def add_lot(request):
-    o = Lot(lot_title=request.POST['title'], lot_text=request.POST['text'], lot_date=timezone.now(), usernew_id=request.user.id)
-    print(request.user.id)
+    o = Lot(lot_title=request.POST['title'], lot_text=request.POST['text'],
+            lot_date=timezone.now(), usernew_id=request.user.id)
     o.save(force_insert=True)
     return HttpResponseRedirect(reverse('lots:index'))
 
