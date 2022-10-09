@@ -31,9 +31,9 @@ def add_swap(request, id=0):
     count = len(latest_swaps_list)+1
 
     # создание свапа
-    # берем айди лота для создания свапа
+    # берем айди лота для создания свапа, айди второго лота пустое (null)
 
-    s = Swap(swap_title=f'Swap_#{count}', id_lot_1=id, id_lot_2='null', swap_date=timezone.now())
+    s = Swap(swap_title=f'Swap_#{count}', lot_1_id=id, swap_date=timezone.now())
     s.save(force_insert=True)
     return HttpResponseRedirect(reverse('swaps:index'))
 
@@ -42,6 +42,6 @@ def add_swap2(request, swap_id, lot_id):
     # поиск свапа в бд по айди
     swap = Swap.objects.get(id=swap_id)
     # присваиваем айди 2 лота в свап
-    swap.id_lot_2 = lot_id
+    swap.lot_2_id = lot_id
     swap.save()
     return HttpResponseRedirect(reverse('swaps:index'))
