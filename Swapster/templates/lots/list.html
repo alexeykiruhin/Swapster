@@ -7,11 +7,19 @@
     <a href="{% url 'swaps:index' %}"><button type="button" >Свапы</button></a>
     <br>
 
-    <h3>Лоты</h3>
+    <h3>Мои лоты:</h3>
 
     {% if latest_lots_list %}
         {% for l in latest_lots_list %}
             <a href="{% url 'lots:detail' l.id %}">{{ l.lot_title }}</a><br>
+        {% endfor %}
+    {% endif %}
+    <br>
+
+    <h3>Мои свапы:</h3>
+    {% if list_my_swaps %}
+        {% for s in list_my_swaps %}
+            <a href="{% url 'swaps:detail' s.id %}">{{ s.swap_title }}</a><br>
         {% endfor %}
     {% endif %}
     <br>
