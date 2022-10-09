@@ -3,7 +3,6 @@ from django.contrib.auth.models import User
 
 
 class Lot(models.Model):
-    user = models.CharField('user', max_length=50, null=True)
     usernew = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     lot_title = models.CharField('Название', max_length=50)
     lot_text = models.CharField('Описание', max_length=200)

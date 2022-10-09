@@ -15,6 +15,7 @@ def index(request):
 
 
 def detail(request, lot_id):
+    # проверяем есть ли такой лот
     try:
         lot = Lot.objects.get( id = lot_id )
     except:
@@ -29,6 +30,7 @@ def detail(request, lot_id):
 def add_lot(request):
     o = Lot(lot_title=request.POST['title'], lot_text=request.POST['text'],
             lot_date=timezone.now(), usernew_id=request.user.id)
+    print(request.user.pk)
     o.save(force_insert=True)
     return HttpResponseRedirect(reverse('lots:index'))
 

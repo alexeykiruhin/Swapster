@@ -15,7 +15,9 @@ def index(request):
 def detail(request, swap_id):
     try:
         swap = Swap.objects.get( id = swap_id )
-        latest_lots_list = Lot.objects.order_by('-lot_date')
+        # список пользовательских лотов
+        latest_lots_list = Lot.objects.filter(usernew_id=request.user.id).order_by('-lot_date')
+
     except:
         raise Http404('Свап не найден')
 
@@ -27,6 +29,9 @@ def add_swap(request, id=0):
     # надо выдернуть количество свапов в бд и добавлять в название
     latest_swaps_list = Swap.objects.all()
     count = len(latest_swaps_list)+1
+
+    # создание свапа
+    # берем айди лота для создания свапа
 
     s = Swap(swap_title=f'Swap_#{count}', id_lot_1=id, id_lot_2='null', swap_date=timezone.now())
     s.save(force_insert=True)
