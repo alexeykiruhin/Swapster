@@ -6,6 +6,7 @@ class Swap(models.Model):
     swap_title = models.CharField('Обмен', max_length=50)
     lot_1 = models.ForeignKey(Lot, on_delete=models.SET_NULL, null=True, related_name='first_lot')
     lot_2 = models.ForeignKey(Lot, on_delete=models.SET_NULL, null=True, related_name='second_lot')
+    swap_full = models.BooleanField(default=False)
     swap_date = models.DateTimeField('Дата обмена')
 
     def __str__(self):

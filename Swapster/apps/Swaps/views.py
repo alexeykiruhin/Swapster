@@ -10,7 +10,7 @@ from .models import Swap
 def index(request):
     # анонимному пользователю показываем все свапы(за исключением полных с 2мя лотами)
     if request.user.is_anonymous:
-        latest_swaps_list = Swap.objects.order_by('-swap_date')
+        latest_swaps_list = Swap.objects.order_by('-swap_date').exclude(swap_full=True)
         return render(request, 'swaps/list.html', {'latest_swaps_list': latest_swaps_list})
     else:
         # убрать свапы с твоими лотами из общего списка, они показываются только на странице с твоими свапами
@@ -28,7 +28,7 @@ def index(request):
             swaps_id.append(swap.id)
 
         # список экземпляров объектов моих слотов, которые надо ИСКЛЮЧИТЬ из общего списка свапов
-        list_exclude_my_swaps = Swap.objects.exclude(id__in=swaps_id)
+        list_exclude_my_swaps = Swap.objects.exclude(id__in=swaps_id).exclude(swap_full=True)
         # название списка передаваемого во вью такое же как и для анонимного пользователя
         return render(request, 'swaps/list.html', {'latest_swaps_list': list_exclude_my_swaps})
 
@@ -62,5 +62,6 @@ def add_swap2(request, swap_id, lot_id):
     swap = Swap.objects.get(id=swap_id)
     # присваиваем айди 2 лота в свап
     swap.lot_2_id = lot_id
+    swap.swap_full = True
     swap.save()
     return HttpResponseRedirect(reverse('swaps:index'))
