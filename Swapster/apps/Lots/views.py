@@ -16,7 +16,7 @@ def index(request):
         my_swaps_in_lot_1 = Swap.objects.filter(lot_1__usernew_id=request.user.id)
         # ищем свои свапы по второму лоту и добавляем к списку из первх лотов
         my_swaps_in_lot_2 = Swap.objects.filter(lot_2__usernew_id=request.user.id)
-        #список айди моих свапов
+        # список айди моих свапов
         swaps_id = []
 
         for swap in my_swaps_in_lot_1:
@@ -33,7 +33,7 @@ def index(request):
 def detail(request, lot_id):
     # проверяем есть ли такой лот
     try:
-        lot = Lot.objects.get( id = lot_id )
+        lot = Lot.objects.get(id=lot_id)
     except:
         raise Http404('Лот не найден')
     # проверяем чей лот, если этого юзера то показываем
@@ -49,6 +49,3 @@ def add_lot(request):
     print(request.user.pk)
     o.save(force_insert=True)
     return HttpResponseRedirect(reverse('lots:index'))
-
-
-
