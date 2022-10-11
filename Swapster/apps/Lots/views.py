@@ -11,7 +11,10 @@ def index(request):
     if request.user.is_anonymous:
         return HttpResponseRedirect(reverse('swaps:index'))
     else:
-        latest_lots_list = Lot.objects.filter(usernew_id=request.user.id).order_by('-lot_date')
+        # список моих лотов их надо разделить на те которые уже в свапе и которые нет
+        latest_lots_list = Lot.objects.filter(usernew_id=request.user.id).order_by('-lot_date').exclude(in_swap=True)
+        # лоты которые участвуют в свапах
+        lots_in_swap_list = Lot.objects.filter(usernew_id=request.user.id, in_swap=True).order_by('-lot_date')
         # ищем свои свапы по первому лоту
         my_swaps_in_lot_1 = Swap.objects.filter(lot_1__usernew_id=request.user.id)
         # ищем свои свапы по второму лоту и добавляем к списку из первх лотов
@@ -25,9 +28,9 @@ def index(request):
         for swap in my_swaps_in_lot_2:
             swaps_id.append(swap.id)
 
-        # список экземпляров объектов моих слотов
+        # список экземпляров объектов моих свапов
         list_my_swaps = Swap.objects.filter(id__in=swaps_id)
-        return render(request, 'lots/list.html', {'latest_lots_list': latest_lots_list, 'list_my_swaps': list_my_swaps})
+        return render(request, 'lots/list.html', {'latest_lots_list': latest_lots_list, 'list_my_swaps': list_my_swaps, 'lots_in_swap_list': lots_in_swap_list})
 
 
 def detail(request, lot_id):

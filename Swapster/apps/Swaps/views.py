@@ -35,11 +35,12 @@ def index(request):
 
 
 def detail(request, swap_id):
+    # добавить условие отображения свапов, если он фулл то не показываем лоты для добавления,
+    # так же если свап фуловый то надо его пометить(т.е. есть предложение на обмен)
     try:
         swap = Swap.objects.get(id=swap_id)
-        # список пользовательских лотов
-        latest_lots_list = Lot.objects.filter(usernew_id=request.user.id).order_by('-lot_date')
-
+        # список пользовательских лотов не участвующих в свапах
+        latest_lots_list = Lot.objects.filter(usernew_id=request.user.id).order_by('-lot_date').exclude(in_swap=True)
     except:
         raise Http404('Свап не найден')
 
@@ -54,6 +55,10 @@ def add_swap(request, id=0):
     # берем айди лота для создания свапа, айди второго лота пустое (null)
     s = Swap(swap_title=f'Swap_#{count}', lot_1_id=id, swap_date=timezone.now())
     s.save(force_insert=True)
+    # в лоте который сюда передаём надо изменить поле in_swap на True
+    lot = Lot.objects.get(id=id)
+    lot.in_swap = True
+    lot.save()
     return HttpResponseRedirect(reverse('swaps:index'))
 
 
@@ -64,4 +69,8 @@ def add_swap2(request, swap_id, lot_id):
     swap.lot_2_id = lot_id
     swap.swap_full = True
     swap.save()
+    # в лоте который сюда передаём надо изменить поле in_swap на True
+    lot = Lot.objects.get(id=lot_id)
+    lot.in_swap = True
+    lot.save()
     return HttpResponseRedirect(reverse('swaps:index'))
