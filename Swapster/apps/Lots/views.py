@@ -18,7 +18,9 @@ def index(request):
         lots_in_swap_list = Lot.objects.filter(usernew_id=request.user.id, in_swap=True).order_by('-lot_date')
         # ищем свои свапы по первому лоту и второму лоту
         list_my_swaps = Swap.objects.filter(Q(lot_1__usernew_id=request.user.id) | Q(lot_2__usernew_id=request.user.id))
-        return render(request, 'lots/list.html', {'latest_lots_list': latest_lots_list, 'list_my_swaps': list_my_swaps, 'lots_in_swap_list': lots_in_swap_list})
+        return render(request, 'lots/list.html', {'latest_lots_list': latest_lots_list,
+                                                  'list_my_swaps': list_my_swaps,
+                                                  'lots_in_swap_list': lots_in_swap_list})
 
 
 def detail(request, lot_id):

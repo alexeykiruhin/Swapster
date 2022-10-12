@@ -17,10 +17,10 @@ def index(request):
         # убрать свапы с твоими лотами из общего списка, они показываются только на странице с твоими свапами
         # ищем свои свапы по первому лоту и второму лоту
         # список экземпляров объектов моих слотов, которые надо ИСКЛЮЧИТЬ из общего списка свапов
-        list_exclude_my_swaps = Swap.objects.exclude(Q(lot_1__usernew_id=request.user.id) | Q(lot_2__usernew_id=request.user.id)).exclude(swap_full=True)
+        list_exclude_my_swaps = Swap.objects.exclude(Q(lot_1__usernew_id=request.user.id) |
+                                                     Q(lot_2__usernew_id=request.user.id)).exclude(swap_full=True)
         # название списка передаваемого во вью такое же как и для анонимного пользователя
         return render(request, 'swaps/list.html', {'latest_swaps_list': list_exclude_my_swaps})
-
 
 
 def detail(request, swap_id):

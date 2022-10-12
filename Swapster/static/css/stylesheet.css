@@ -1,3 +1,26 @@
-.table{
+html, body{
+    margin: 0;
+    padding: 2vh;
+}
+
+body{
+    background-color: darkslateblue;
+}
+
+.user_info{
+    background-color: indigo;
     text-align: center;
+}
+
+h3{
+    color: lightgray;
+}
+
+p, a{
+    color: whitesmoke;
+}
+
+a{
+    outline: none;
+    text-decoration: none;
 }
