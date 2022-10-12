@@ -5,6 +5,7 @@ from django.utils import timezone
 
 from .models import Lot
 from ..Swaps.models import Swap
+from django.db.models import Q
 
 
 def index(request):
@@ -15,21 +16,8 @@ def index(request):
         latest_lots_list = Lot.objects.filter(usernew_id=request.user.id).order_by('-lot_date').exclude(in_swap=True)
         # лоты которые участвуют в свапах
         lots_in_swap_list = Lot.objects.filter(usernew_id=request.user.id, in_swap=True).order_by('-lot_date')
-        # ищем свои свапы по первому лоту
-        my_swaps_in_lot_1 = Swap.objects.filter(lot_1__usernew_id=request.user.id)
-        # ищем свои свапы по второму лоту и добавляем к списку из первх лотов
-        my_swaps_in_lot_2 = Swap.objects.filter(lot_2__usernew_id=request.user.id)
-        # список айди моих свапов
-        swaps_id = []
-
-        for swap in my_swaps_in_lot_1:
-            swaps_id.append(swap.id)
-
-        for swap in my_swaps_in_lot_2:
-            swaps_id.append(swap.id)
-
-        # список экземпляров объектов моих свапов
-        list_my_swaps = Swap.objects.filter(id__in=swaps_id)
+        # ищем свои свапы по первому лоту и второму лоту
+        list_my_swaps = Swap.objects.filter(Q(lot_1__usernew_id=request.user.id) | Q(lot_2__usernew_id=request.user.id))
         return render(request, 'lots/list.html', {'latest_lots_list': latest_lots_list, 'list_my_swaps': list_my_swaps, 'lots_in_swap_list': lots_in_swap_list})
 
 
