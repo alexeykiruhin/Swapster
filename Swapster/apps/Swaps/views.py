@@ -2,42 +2,49 @@ from django.http import Http404, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 from django.utils import timezone
+from django.views.generic import ListView, DetailView
 
 from ..Lots.models import Lot
 from .models import Swap
 from django.db.models import Q
 
 
-def index(request):
-    # анонимному пользователю показываем все свапы(за исключением полных с 2мя лотами)
-    if request.user.is_anonymous:
-        latest_swaps_list = Swap.objects.order_by('-swap_date').exclude(swap_full=True)
-        return render(request, 'swaps/list.html', {'latest_swaps_list': latest_swaps_list})
-    else:
-        # убрать свапы с твоими лотами из общего списка, они показываются только на странице с твоими свапами
-        # ищем свои свапы по первому лоту и второму лоту
-        # список экземпляров объектов моих слотов, которые надо ИСКЛЮЧИТЬ из общего списка свапов
-        list_exclude_my_swaps = Swap.objects.exclude(Q(lot_1__usernew_id=request.user.id) |
-                                                     Q(lot_2__usernew_id=request.user.id)).exclude(swap_full=True)
-        # название списка передаваемого во вью такое же как и для анонимного пользователя
-        return render(request, 'swaps/list.html', {'latest_swaps_list': list_exclude_my_swaps})
+class SwapIndex(ListView):
+    model = Swap
+    template_name = 'swaps/list.html'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Свапы'
+        # анонимному пользователю показываем все свапы(за исключением полных с 2мя лотами)
+        if self.request.user.is_anonymous:
+            context['all_swaps_list'] = Swap.objects.order_by('-swap_date').exclude(swap_full=True)
+        else:
+            # убираем свапы пользователя из общего списка показываемого ему же
+            context['exclude_my_swaps_list'] = self.model.objects.exclude(Q(lot_1__usernew_id=self.request.user.id) |
+                                                     Q(lot_2__usernew_id=self.request.user.id)).exclude(swap_full=True)
+        return context
 
 
-def detail(request, swap_id):
-    # добавить условие отображения свапов, если он фулл то не показываем лоты для добавления,
-    # так же если свап фуловый то надо его пометить(т.е. есть предложение на обмен)
-    try:
-        swap = Swap.objects.get(id=swap_id)
+class SwapDetail(DetailView):
+    model = Swap
+    template_name = 'swaps/detail.html'
+    pk_url_kwarg = 'swap_id'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # добавить условие отображения свапов, если он фулл то не показываем лоты для добавления,
+        # так же если свап фуловый то надо его пометить в списке мои свапы(т.е. есть предложение на обмен)
+        context['swap'] = self.object
         # список пользовательских лотов не участвующих в свапах
-        latest_lots_list = Lot.objects.filter(usernew_id=request.user.id).order_by('-lot_date').exclude(in_swap=True)
-    except:
-        raise Http404('Свап не найден')
-
-    return render(request, 'swaps/detail.html', {'swap': swap, 'latest_lots_list': latest_lots_list})
+        context['my_lots_list'] = Lot.objects.filter(usernew_id=self.request.user.id).order_by('-lot_date')\
+                                                                                     .exclude(in_swap=True)
+        return context
 
 
 def add_swap(request, id=0):
     # надо выдернуть количество свапов в бд и добавлять в название
+    # убрать в последствии
     latest_swaps_list = Swap.objects.all()
     count = len(latest_swaps_list)+1
     # создание свапа

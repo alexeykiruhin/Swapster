@@ -1,20 +1,25 @@
 {% extends 'base.html' %}
 
-{% block title %} Свапы {% endblock %}
+{% block title %} {{ title }} {% endblock %}
 
 {% block content %}
 
     <a href="{% url 'lots:index' %}"><button type="button" >Мои Лоты</button></a>
     <br>
 
-    {% if latest_swaps_list %}
+    {% if all_swaps_list %}
         <tr class="table">
             <th scope="row"><h3>Свапы:</h3></th>
-            {% for s in latest_swaps_list %}
+            {% for s in all_swaps_list %}
                 <td class="row"><a href="{% url 'swaps:detail' s.id %}">{{ s.swap_title }}</a></td><br>
             {% endfor %}
         </tr>
-
     {% else %}
+        <tr class="table">
+            <th scope="row"><h3>Свапы:</h3></th>
+            {% for s in exclude_my_swaps_list %}
+                <td class="row"><a href="{% url 'swaps:detail' s.id %}">{{ s.swap_title }}</a></td><br>
+            {% endfor %}
+        </tr>
     {% endif %}
 {% endblock %}
