@@ -42,6 +42,7 @@ class LotDetail(DetailView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['title'] = self.object.lot_title
         # проверяем чей лот, если этого юзера то показываем, т.е. добавляем в общий контекст
         if self.object.usernew_id == self.request.user.id:
             context['lot'] = self.object
