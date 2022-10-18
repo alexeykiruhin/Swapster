@@ -5,6 +5,6 @@ from .views import *
 app_name = 'lots'
 urlpatterns = [
     path('', LotIndex.as_view(), name='index'),
-    path('<int:lot_id>/', detail, name='detail'),
+    path('<int:lot_id>/', LotDetail.as_view(), name='detail'),
     path('add_lot/', add_lot, name='add_lot'),
 ]

@@ -1,8 +1,7 @@
 from django.http import Http404, HttpResponseRedirect
-from django.shortcuts import render
 from django.urls import reverse
 from django.utils import timezone
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
 
 from .models import Lot
 from ..Swaps.models import Swap
@@ -17,11 +16,14 @@ class LotIndex(ListView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Лоты'
+        # список моих лотов которые не в свапах
         context['my_lots_list'] = self.model.objects.filter(usernew_id=self.request.user.id)\
             .order_by('-lot_date')\
             .exclude(in_swap=True)
+        # список лотов которые в свапах
         context['lots_in_swap_list'] = self.model.objects.filter(usernew_id=self.request.user.id, in_swap=True)\
             .order_by('-lot_date')
+        # список моих свапов
         context['my_swaps_list'] = Swap.objects.filter(Q(lot_1__usernew_id=self.request.user.id) |
                                                              Q(lot_2__usernew_id=self.request.user.id))
         return context
@@ -30,32 +32,22 @@ class LotIndex(ListView):
     #    # допустим тут выбираем только лоты этого юзера а в гет контекст дата уже делаем фильтры
     #    return Lot.objects.filter(usernew_id=self.request.user.id).order_by('-lot_date').exclude(in_swap=True)
 
-#def index(request):
-#    if request.user.is_anonymous:
-#        return HttpResponseRedirect(reverse('swaps:index'))
-#    else:
-#        # список моих лотов их надо разделить на те которые уже в свапе и которые нет
-#        my_lots_list = Lot.objects.filter(usernew_id=request.user.id).order_by('-lot_date').exclude(in_swap=True)
-#        # лоты которые участвуют в свапах
-#        lots_in_swap_list = Lot.objects.filter(usernew_id=request.user.id, in_swap=True).order_by('-lot_date')
-#        # ищем свои свапы по первому лоту и второму лоту
-#        my_swaps_list = Swap.objects.filter(Q(lot_1__usernew_id=request.user.id) | Q(lot_2__usernew_id=request.user.id))
-#        return render(request, 'lots/list.html', {'my_lots_list': my_lots_list,
-#                                                  'my_swaps_list': my_swaps_list,
-#                                                  'lots_in_swap_list': lots_in_swap_list})
 
+class LotDetail(DetailView):
+    model = Lot
+    template_name = 'lots/detail.html'
+    # slug_url_kwarg = 'lot_slug'
+    pk_url_kwarg = 'lot_id'
+    # context_object_name = 'lot'
 
-def detail(request, lot_id):
-    # проверяем есть ли такой лот
-    try:
-        lot = Lot.objects.get(id=lot_id)
-    except:
-        raise Http404('Лот не найден')
-    # проверяем чей лот, если этого юзера то показываем
-    if lot.usernew_id == request.user.id:
-        return render(request, 'lots/detail.html', {'lot': lot})
-    else:
-        raise Http404('Лот не найден')
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # проверяем чей лот, если этого юзера то показываем, т.е. добавляем в общий контекст
+        if self.object.usernew_id == self.request.user.id:
+            context['lot'] = self.object
+        else:
+            raise Http404('Лот не найден')
+        return context
 
 
 def add_lot(request):
