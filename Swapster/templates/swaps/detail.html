@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %} {{ swap.swap_title }} {% endblock %}
 
@@ -8,8 +9,8 @@
     <h2>{{ swap.swap_title }}</h2>
     <span>
         <p>{{ swap.lot_1.lot_title }} - {{ swap.lot_2.lot_title }}</p>
-        <img src="" alt="not found">
-        <img src="" alt="not found">
+        <img class="lot_1_img" src="{% static 'img/1.jpg'%}" alt="not found">
+        <img class="lot_2_img" src="{% static 'img/2.jpg'%}" alt="not found">
     </span>
     <br>
     <em>{{ swap.swap_date }}</em>

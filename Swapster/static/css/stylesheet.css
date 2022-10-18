@@ -12,11 +12,15 @@ body{
     text-align: center;
 }
 
+.lot_1_img, .lot_2_img{
+    width: 10vh;
+}
+
 h3{
     color: lightgray;
 }
 
-p, a{
+p, a, em, h2{
     color: whitesmoke;
 }
 

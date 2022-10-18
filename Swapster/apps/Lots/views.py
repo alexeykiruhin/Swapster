@@ -2,25 +2,47 @@ from django.http import Http404, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 from django.utils import timezone
+from django.views.generic import ListView
 
 from .models import Lot
 from ..Swaps.models import Swap
 from django.db.models import Q
 
 
-def index(request):
-    if request.user.is_anonymous:
-        return HttpResponseRedirect(reverse('swaps:index'))
-    else:
-        # список моих лотов их надо разделить на те которые уже в свапе и которые нет
-        latest_lots_list = Lot.objects.filter(usernew_id=request.user.id).order_by('-lot_date').exclude(in_swap=True)
-        # лоты которые участвуют в свапах
-        lots_in_swap_list = Lot.objects.filter(usernew_id=request.user.id, in_swap=True).order_by('-lot_date')
-        # ищем свои свапы по первому лоту и второму лоту
-        list_my_swaps = Swap.objects.filter(Q(lot_1__usernew_id=request.user.id) | Q(lot_2__usernew_id=request.user.id))
-        return render(request, 'lots/list.html', {'latest_lots_list': latest_lots_list,
-                                                  'list_my_swaps': list_my_swaps,
-                                                  'lots_in_swap_list': lots_in_swap_list})
+class LotIndex(ListView):
+    model = Lot
+    template_name = 'lots/list.html'
+    # context_object_name = 'my_lots_list'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Лоты'
+        context['my_lots_list'] = self.model.objects.filter(usernew_id=self.request.user.id)\
+            .order_by('-lot_date')\
+            .exclude(in_swap=True)
+        context['lots_in_swap_list'] = self.model.objects.filter(usernew_id=self.request.user.id, in_swap=True)\
+            .order_by('-lot_date')
+        context['my_swaps_list'] = Swap.objects.filter(Q(lot_1__usernew_id=self.request.user.id) |
+                                                             Q(lot_2__usernew_id=self.request.user.id))
+        return context
+
+    # def get_queryset(self):
+    #    # допустим тут выбираем только лоты этого юзера а в гет контекст дата уже делаем фильтры
+    #    return Lot.objects.filter(usernew_id=self.request.user.id).order_by('-lot_date').exclude(in_swap=True)
+
+#def index(request):
+#    if request.user.is_anonymous:
+#        return HttpResponseRedirect(reverse('swaps:index'))
+#    else:
+#        # список моих лотов их надо разделить на те которые уже в свапе и которые нет
+#        my_lots_list = Lot.objects.filter(usernew_id=request.user.id).order_by('-lot_date').exclude(in_swap=True)
+#        # лоты которые участвуют в свапах
+#        lots_in_swap_list = Lot.objects.filter(usernew_id=request.user.id, in_swap=True).order_by('-lot_date')
+#        # ищем свои свапы по первому лоту и второму лоту
+#        my_swaps_list = Swap.objects.filter(Q(lot_1__usernew_id=request.user.id) | Q(lot_2__usernew_id=request.user.id))
+#        return render(request, 'lots/list.html', {'my_lots_list': my_lots_list,
+#                                                  'my_swaps_list': my_swaps_list,
+#                                                  'lots_in_swap_list': lots_in_swap_list})
 
 
 def detail(request, lot_id):
