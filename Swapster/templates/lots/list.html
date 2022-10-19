@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %} {{ title }} {% endblock %}
 
@@ -27,7 +28,11 @@
     <h3>Мои свапы:</h3>
     {% if my_swaps_list %}
         {% for s in my_swaps_list %}
-            <a href="{% url 'swaps:detail' s.id %}">{{ s.swap_title }}</a><br>
+            {% if s.swap_full%}
+                <a class="full_swap" href="{% url 'swaps:detail' s.id %}">{{ s.swap_title }}</a><br>
+            {% else %}
+                <a class="swap" href="{% url 'swaps:detail' s.id %}">{{ s.swap_title }}</a><br>
+            {% endif %}
         {% endfor %}
     {% endif %}
     <br>

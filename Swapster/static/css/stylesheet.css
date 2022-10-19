@@ -28,3 +28,7 @@ a{
     outline: none;
     text-decoration: none;
 }
+
+.full_swap{
+    color: red;
+}

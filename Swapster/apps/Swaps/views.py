@@ -30,13 +30,17 @@ class SwapDetail(DetailView):
     model = Swap
     template_name = 'swaps/detail.html'
     pk_url_kwarg = 'swap_id'
+    context_object_name = 'swap'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = self.object.swap_title
-        # добавить условие отображения свапов, если он фулл то не показываем лоты для добавления,
-        # так же если свап фуловый то надо его пометить в списке мои свапы(т.е. есть предложение на обмен)
-        context['swap'] = self.object
+        # нужнo для того, что бы нельзя было добавить 2 лот в свой же свап
+        # айди юзера который создал свап
+        context['id_user_create_swap'] = Lot.objects.get(id=self.object.lot_1_id).usernew_id
+        # айди юзера
+        context['id_user'] = self.request.user.id
+        # добавить условие отображения свапов, если он фулл то не показываем лоты для добавления
         # список пользовательских лотов не участвующих в свапах
         context['my_lots_list'] = Lot.objects.filter(usernew_id=self.request.user.id).order_by('-lot_date')\
                                                                                      .exclude(in_swap=True)

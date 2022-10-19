@@ -16,11 +16,13 @@
     <em>{{ swap.swap_date }}</em>
     <br>
     <br>
-    <h3>Мои Лоты</h3>
-    <p>Выбери Лот и свапайся - нажми на Лот для свапа</p>
-    {% if latest_lots_list %}
-        {% for l in latest_lots_list %}
-            <a href="{% url 'swaps:add_swap2' swap.id l.id %}">{{ l.lot_title }}</a><br>
-        {% endfor %}
+    {% if id_user_create_swap != id_user %}
+        {% if not swap.swap_full %}
+            <h3>Мои Лоты</h3>
+            <p>Выбери Лот и свапайся - нажми на Лот для свапа</p>
+            {% for l in my_lots_list %}
+                <a href="{% url 'swaps:add_swap2' swap.id l.id %}">{{ l.lot_title }}</a><br>
+            {% endfor %}
+        {% endif %}
     {% endif %}
 {% endblock %}
