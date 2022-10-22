@@ -8,7 +8,6 @@ from ..Lots.models import Lot
 from .models import Swap
 from django.db.models import Q
 
-# sdsdsdsd
 
 class SwapIndex(ListView):
     model = Swap
