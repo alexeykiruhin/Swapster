@@ -1,27 +1,11 @@
-html, body{
+*{
     margin: 0;
-    padding: 2vh;
-}
-
-body{
-    background-color: darkslateblue;
-}
-
-.user_info{
-    background-color: indigo;
-    text-align: center;
+    padding: 0;
+    font-family: Verdana;
 }
 
 .lot_1_img, .lot_2_img{
     width: 10vh;
-}
-
-h3{
-    color: lightgray;
-}
-
-p, a, em, h2{
-    color: whitesmoke;
 }
 
 a{
@@ -29,6 +13,134 @@ a{
     text-decoration: none;
 }
 
-.full_swap{
-    color: red;
+body{
+    display: grid;
+    min-height: 100vh;
+    grid-template-columns: repeat(3, 1fr);
+    /*grid-auto-rows: minmax(100px, auto);*/
+    grid-template-rows: min-content 1fr min-content;
+    background-color: #bdbde5;
+    text-align: center;
+}
+
+header{
+    grid-row: 1;
+    grid-column: 1 / 4;
+    background: #2d062d;
+    color: aliceblue;
+    min-height: 5vh;
+    display: grid;
+    grid-template-columns: 2fr 4fr 1fr 1fr;
+    padding-top: 3px;
+}
+header > a{
+    color: aliceblue;
+}
+.logo{
+    grid-row: 1;
+    grid-column: 1 / 2;
+    padding: 0 20px;
+    text-align: left;
+    width: 48px;
+}
+.username{
+    grid-row: 1;
+    grid-column: 3 / 4;
+    padding-top: 12px;
+}
+.logout{
+    grid-row: 1;
+    grid-column: 4 / 5;
+    padding: 12px 20px;
+    text-align: right;
+}
+
+
+main{
+    grid-row: 2;
+    grid-column: 1 / 4;
+    padding: 0 20px;
+    color: black;
+}
+
+main > a{
+    color: black;
+}
+main > h3{
+    color: dodgerblue;
+}
+
+footer{
+    grid-row: 3;
+    grid-column: 1 / 4;
+    background: #2d062d;
+    color: aliceblue;
+}
+
+/*lot list page*/
+
+.content{
+    display: grid;
+    /*min-height: 80vh;*/
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: 5vh 1fr 5vh 5fr 5vh 5fr 5vh;
+    grid-column-gap: 5vh;
+    /*padding-top: 5vh;*/
+}
+.header_block{
+    background: #460a46;
+    border-radius: 3px;
+    color: aliceblue;
+    padding: 5px;
+    font-family: Verdana;
+    font-size: medium;
+    font-weight: normal;
+}
+.content_block{
+    padding-top: 10px;
+    color: black;
+}
+.content_block > a{
+    color: black;
+}
+.content_block > .full_swap{
+    color: cornflowerblue;
+    /*color: #bdbde5;*/
+}
+.nav{
+    grid-row: 2;
+    grid-column: 2 / 3;
+    background: #460a46;
+    border-radius: 3px;
+    padding: 10px;
+}
+.nav > p{
+    padding-top: 0.5vh;
+    color: aliceblue;
+}
+.left{
+    grid-row: 4;
+    background: aliceblue;
+    border-radius: 3px;
+    padding: 10px;
+}
+.center{
+    grid-row: 4;
+    grid-column: 2 / 3;
+    background: aliceblue;
+    border-radius: 3px;
+    padding: 10px;
+}
+.right{
+    grid-row: 4;
+    background: aliceblue;
+    border-radius: 3px;
+    padding: 10px;
+}
+.add{
+    grid-row: 6;
+    grid-column: 2 / 3;
+    background: aliceblue;
+    border-radius: 3px;
+    padding: 10px;
 }

@@ -20,12 +20,14 @@ class LotIndex(ListView):
         context['my_lots_list'] = self.model.objects.filter(usernew_id=self.request.user.id)\
             .order_by('-lot_date')\
             .exclude(in_swap=True)
-        # список лотов которые в свапах
+        # список лотов которые в свапах, возможно удалить список, т.к. никако информации в них не будет
         context['lots_in_swap_list'] = self.model.objects.filter(usernew_id=self.request.user.id, in_swap=True)\
             .order_by('-lot_date')
         # список моих свапов
         context['my_swaps_list'] = Swap.objects.filter(Q(lot_1__usernew_id=self.request.user.id) |
                                                              Q(lot_2__usernew_id=self.request.user.id))
+        print(context['lots_in_swap_list'][0].id)
+        print(context['my_swaps_list'][0].lot_1_id)
         return context
 
     # def get_queryset(self):

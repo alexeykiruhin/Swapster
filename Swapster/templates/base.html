@@ -7,19 +7,27 @@
     <link rel="stylesheet" href="{% static 'css/stylesheet.css'%}" type="text/css">
 </head>
 <body>
-    <div class="user_info">
+    <header>
+        <a class="logo" href="{% url 'swaps:index' %}">
+            <img src="{% static 'img/logo.svg' %}" alt="logo">
+        </a>
         {% if user.is_authenticated %}
-            <p>Hi {{ user.username }}!</p>
-            <p><a href="{% url 'logout' %}">Log out</a></p>
+            <p class="username">{{ user.username }}</p>
+            <a class="logout" href="{% url 'logout' %}">Log out</a>
         {% else %}
-            <p>You are not logged in.</p>
-            <a href="{% url 'login' %}">Log In</a>
+            <p class="username">You are not logged in.</p>
+            <a class="logout" href="{% url 'login' %}">Log In</a>
         {% endif %}
-    </div>
-    <p>добавить удаление и изменение лота</p>
-    <p>в просмотре своего лота который уже в свапе, добавить ссылку на сам свап</p>
-    <p>убрать кнопку свапнуть в лотах которые уже в свапе</p>
-    {% block content %} {% endblock %}
-
+    </header>
+        {% comment %}<p>добавить удаление и изменение лота</p>
+        <p>в просмотре своего лота который уже в свапе, добавить ссылку на сам свап, возможно не нужно</p>
+        <p>убрать кнопку свапнуть в лотах которые уже в свапе, возможно тоже лишнее как и предыдущий</p>
+        <p>добавить кнопки согласится на свап или отменить</p>{% endcomment %}
+    <main>
+        {% block content %} {% endblock %}
+    </main>
+    <footer>
+        <p>created by 2022</p>
+    </footer>
 </body>
 </html>
