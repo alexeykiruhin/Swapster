@@ -83,7 +83,7 @@ footer{
     display: grid;
     /*min-height: 80vh;*/
     grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: 5vh 1fr 5vh 5fr 5vh 5fr 5vh;
+    grid-template-rows: 5vh 1fr 5vh 5fr 5vh 1fr;
     grid-column-gap: 5vh;
     /*padding-top: 5vh;*/
 }
@@ -117,6 +117,16 @@ footer{
 .nav > p{
     padding-top: 0.5vh;
     color: aliceblue;
+}.add{
+    grid-row: 6;
+    grid-column: 2 / 3;
+    background: #460a46;
+    border-radius: 3px;
+    padding: 10px;
+}
+.add > p{
+    padding-top: 0.5vh;
+    color: aliceblue;
 }
 .left{
     grid-row: 4;
@@ -137,10 +147,17 @@ footer{
     border-radius: 3px;
     padding: 10px;
 }
-.add{
-    grid-row: 6;
-    grid-column: 2 / 3;
-    background: aliceblue;
-    border-radius: 3px;
-    padding: 10px;
-}
+/*.add{*/
+/*    grid-row: 6;*/
+/*    grid-column: 2 / 3;*/
+/*    background: aliceblue;*/
+/*    border-radius: 3px;*/
+/*    padding: 10px;*/
+/*}*/
+
+/*#028E9B*/
+/*#1E6D74*/
+/*#015C65*/
+/*#35C0CD*/
+/*#5EC4CD*/
+/*#DDF9FC*/

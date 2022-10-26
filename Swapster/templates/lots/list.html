@@ -13,7 +13,8 @@
             <div class="content_block">
             {% if my_lots_list %}
                 {% for l in my_lots_list %}
-                    <a href="{% url 'lots:detail' l.id %}">{{ l.lot_title }}</a><br>
+                    <a href="{% url 'lots:detail' l.id %}">{{ l.lot_title }}</a>
+                    <a href="{% url 'lots:delete' l.id %}">x</a><br>
                 {% endfor %}
             {% endif %}
             </div>
@@ -42,20 +43,8 @@
             {% endif %}
             </div>
         </div>
-        <div class="add">
-            <h3 class="header_block">Добавить лот</h3>
-            <div class="content_block">
-                <form action="{% url 'lots:add_lot' %}" method="POST">
-                    {% csrf_token %}
-                    <label>
-                        <input type="text" required placeholder="Название" name="title">
-                    </label><br>
-                    <label>
-                        <textarea name="text" required placeholder="Описание" cols="30" rows="10"></textarea>
-                    </label><br>
-                    <button type="submit">Добавить</button>
-                </form>
-            </div>
-        </div>
+        <a class="add" href="{% url 'lots:add_lot' %}">
+            <p>Добавить лот</p>
+        </a>
     </div>
 {% endblock %}

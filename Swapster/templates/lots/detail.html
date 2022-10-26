@@ -5,13 +5,12 @@
 
 {% block content %}
     <a href="{% url 'lots:index' %}"><button type="button" >Назад</button></a>
-    <h3>Лоты</h3>
+    <h3>Лот</h3>
     <h3>{{ lot.lot_title }}</h3>
     <p>{{ lot.lot_text }}</p>
     <p>Добавлен: <em>{{ lot.lot_date }}</em></p>
-
     <br>
+    <a href="{% url 'lots:change' lot.id %}">Редактировать</a>
     <br>
-
     <a href="{% url 'swaps:add_swap' lot.id %}"><button type="button" >Свапнуть</button></a>
 {% endblock %}

@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} {{ title }} {% endblock %}
+
+{% block content %}
+    <h3 class="header_block">Добавить лот</h3>
+    <div class="content_block">
+        <form action="" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+            <a href="{% url 'lots:index' %}">Отменить</a>
+            <input type="submit" value="Сохранить">
+    </form>
+    </div>
+{% endblock %}

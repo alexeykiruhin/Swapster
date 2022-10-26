@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} {{ title }} {% endblock %}
+
+{% block content %}
+    <p>Уверены, что хотите удалить {{ lot.lot_title }}</p>
+    <form action="{% url 'lots:delete' lot.id %}" method="post">
+        {% csrf_token %}
+        <a href="{% url 'lots:index' %}">Отменить</a>
+        <input type="submit" value="Подтвердить">
+
+    </form>
+{% endblock %}
