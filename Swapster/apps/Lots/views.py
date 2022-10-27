@@ -53,12 +53,6 @@ class LotDetail(DetailView):
         return context
 
 
-# def add_lot(request):
-#     o = Lot(lot_title=request.POST['title'], lot_text=request.POST['text'],
-#             lot_date=timezone.now(), usernew_id=request.user.id)
-#     o.save(force_insert=True)
-#     return HttpResponseRedirect(reverse('lots:index'))
-
 class LotAdd(CreateView):
     model = Lot
     fields = ['lot_title', 'lot_text']

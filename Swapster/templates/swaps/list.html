@@ -4,22 +4,50 @@
 {% block title %} {{ title }} {% endblock %}
 
 {% block content %}
-    <div class="content">
+    <div class="swap_content">
         <a class="nav" href="{% url 'lots:index' %}">
             <p>Лоты</p>
         </a>
-        <div class="center">
-            <h3 class="header_block">Свапы</h3>
-            <div class="content_block">
-            {% if all_swaps_list %}
-                {% for s in all_swaps_list %}
-                    <a href="{% url 'swaps:detail' s.id %}">{{ s.swap_title }}</a><br>
-                {% endfor %}
-            {% else %}
-                {% for s in exclude_my_swaps_list %}
-                    <a href="{% url 'swaps:detail' s.id %}">{{ s.swap_title }}</a><br>
-                {% endfor %}
-            {% endif %}
+        <div class="grid_container">
+            <div class="container">
+{#                <h3 class="header_block">Свапы</h3>#}
+{#                <div class="content_block">#}
+{#                {% if all_swaps_list %}#}
+{#                    {% for s in all_swaps_list %}#}
+{#                        <a href="{% url 'swaps:detail' s.id %}">{{ s.swap_title }}</a><br>#}
+{#                    {% endfor %}#}
+{#                {% else %}#}
+{#                    {% for s in exclude_my_swaps_list %}#}
+{#                        <a href="{% url 'swaps:detail' s.id %}">{{ s.swap_title }}</a><br>#}
+{#                    {% endfor %}#}
+{#                {% endif %}#}
+{#                </div>#}
+                {% if all_swaps_list %}
+                    {% for s in all_swaps_list %}
+                        <div class="card">
+                            <h4 class="title">{{ s.lot_1.lot_title }}</h4>
+                            <div class="image">
+                                <img src="{% static 'img/1.jpg' %}" alt="">
+                            </div>
+                            <div class="description">
+                                <p>{{ s.swap_title }}</p>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    {% for s in exclude_my_swaps_list %}
+                        <div class="card">
+                            <h4 class="title">{{ s.lot_1.lot_title }}</h4>
+                            <div class="image">
+                                <img src="{% static 'img/1.jpg' %}" alt="">
+                            </div>
+                            <div class="description">
+                                <p>{{ s.swap_title }}</p>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+
             </div>
         </div>
     </div>

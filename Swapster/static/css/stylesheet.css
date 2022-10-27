@@ -1,7 +1,7 @@
 *{
     margin: 0;
     padding: 0;
-    font-family: Verdana;
+    font-family: "Open Sans", sans-serif;
 }
 
 .lot_1_img, .lot_2_img{
@@ -161,3 +161,74 @@ footer{
 /*#35C0CD*/
 /*#5EC4CD*/
 /*#DDF9FC*/
+
+/* index - swaps list page */
+.swap_content{
+    display: grid;
+    /*min-height: 80vh;*/
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: 5vh 1fr 5vh 5fr 5vh 1fr;
+    grid-column-gap: 5vh;
+    /*padding-top: 5vh;*/
+}
+
+.swap_content > .nav{
+    grid-row: 2;
+    grid-column: 2 / 3;
+    background: #460a46;
+    border-radius: 3px;
+    padding: 10px;
+}
+
+.grid_container{
+    grid-row: 4;
+    grid-column: 2 / 3;
+}
+
+.container{
+
+    /*position: absolute;*/
+    height: 300px;
+    width: 600px;
+    top: 60px;
+    left: calc(50% - 300px);
+    display: flex;
+}
+
+.card{
+    display: flex;
+    height: 280px;
+    width: 200px;
+    background-color: #015C65;
+    border-radius: 10px;
+    box-shadow: -1rem 0 3rem #35C0CD;
+    transition: 0.4s ease-out;
+    position: relative;
+    left: 0px;
+}
+
+.card:not(:first-child){
+    margin-left: -50px;
+}
+.card:hover{
+    transform: translateY(-20px);
+    transition: 0.4s ease-out;
+}
+.card:hover ~ .card{
+    position: relative;
+    left: 50px;
+    transition: 0.4s ease-out;
+}
+.card > .title{
+    color: white;
+    font-weight: 300;
+    position: absolute;
+    left: 20px;
+    top: 15px;
+}
+.card > .image > img{
+    position: absolute;
+    top: 150px;
+    left: calc(50% - 60px);
+    height: 128px;
+}
